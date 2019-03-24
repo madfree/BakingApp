@@ -2,9 +2,14 @@ package com.madfree.bakingapp.data;
 
 import java.util.List;
 
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity (indices = {@Index(value = "id", unique = true)})
 public class Recipe {
 
-
+    @PrimaryKey
     private Integer id;
     private String name;
     private List<Ingredient> ingredients = null;
