@@ -2,9 +2,25 @@ package com.madfree.bakingapp.data;
 
 public class Ingredient {
 
-    private Integer ingredientId;
     private Double quantity;
     private String measure;
     private String ingredient;
-    private Integer recipeId;
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public String getIngredient() {
+        return ingredient;
+    }
+
+    public Ingredient(Double quantity, String measure, String ingredient) {
+        this.quantity = quantity;
+        this.measure = measure;
+        this.ingredient = ingredient;
+    }
 }

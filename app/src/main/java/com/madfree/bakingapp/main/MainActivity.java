@@ -14,10 +14,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.madfree.bakingapp.R;
 import com.madfree.bakingapp.data.Recipe;
+import com.madfree.bakingapp.detail.DetailActivity;
 import com.madfree.bakingapp.utils.EspressoIdlingResource;
 
 import java.util.List;
@@ -25,6 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements RecipesListAdapter.ItemClickListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public static final String RECIPE_ID = "RECIPE_ID";
     private RecipesListAdapter mAdapter;
     private EspressoIdlingResource mEspressoIdlingResource;
 
@@ -72,8 +73,9 @@ public class MainActivity extends AppCompatActivity implements RecipesListAdapte
 
     @Override
     public void onItemClickListener(Recipe clickedRecipe) {
-        //Intent intent = new Intent(this, DetailActivity.class);
-        //intent.putExtra("recipeId", clickedRecipe.getId());
-        Toast.makeText(this, "This is the clicked recipe: " + clickedRecipe.getId(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(RECIPE_ID, clickedRecipe.getId());
+        startActivity(intent);
+        //Toast.makeText(this, "This is the clicked recipe: " + clickedRecipe.getId(), Toast.LENGTH_SHORT).show();
     }
 }
