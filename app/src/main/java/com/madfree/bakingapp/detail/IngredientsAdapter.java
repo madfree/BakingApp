@@ -21,17 +21,18 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     public static final String LOG_TAG = IngredientsAdapter.class.getSimpleName();
 
-    private final Context mContext;
     private List<Ingredient> mIngredientsList;
+    private Context context;
 
     public IngredientsAdapter(Context context) {
-        this.mContext = context;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext)
+        //Context context = viewGroup.getContext();
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.ingredient_list_item, viewGroup, false);
         return new IngredientViewHolder(view);
     }
@@ -39,8 +40,8 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder ingredientViewHolder, int position) {
         ingredientViewHolder.ingredientQuantityTextView.setText(valueOf(mIngredientsList.get(position).getQuantity()));
-        ingredientViewHolder.ingredientQuantityTextView.setText(mIngredientsList.get(position).getMeasure());
-        ingredientViewHolder.ingredientQuantityTextView.setText(mIngredientsList.get(position).getIngredient());
+        ingredientViewHolder.ingredientMeasureTextView.setText(mIngredientsList.get(position).getMeasure());
+        ingredientViewHolder.ingredientInfoTextView.setText(mIngredientsList.get(position).getIngredient());
     }
 
     @Override

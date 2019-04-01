@@ -1,8 +1,11 @@
 package com.madfree.bakingapp.data;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -10,16 +13,24 @@ import androidx.room.PrimaryKey;
 public class Recipe {
 
     @PrimaryKey
-    private Integer id;
+    private int id;
     private String name;
-    private List<Ingredient> ingredients = null;
-    private List<Step> steps = null;
-    private Integer servings;
+    private int servings;
     private String image;
 
-    public Recipe(Integer id, String name) {
+    @Ignore
+    @Expose
+    private List<Ingredient> ingredients = null;
+
+    @Ignore
+    @Expose
+    private List<Step> steps = null;
+
+    public Recipe(int id, String name, int servings, String image) {
         this.id = id;
         this.name = name;
+        this.servings = servings;
+        this.image = image;
     }
 
     public Integer getId() {

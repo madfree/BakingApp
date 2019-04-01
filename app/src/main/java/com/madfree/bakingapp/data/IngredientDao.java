@@ -2,6 +2,7 @@ package com.madfree.bakingapp.data;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -18,13 +19,11 @@ public interface IngredientDao {
     void update(Ingredient... ingredients);
 
     @Delete
-    void delete(Ingredient... ingredient);
+    void delete(Ingredient... ingredients);
 
     @Query("SELECT * FROM Ingredient")
     List<Ingredient> getAllIngredients();
 
     @Query("SELECT * FROM ingredient WHERE recipeId=:recipeId")
-    List<Ingredient> findIngredientsFroRecipe(final int recipeId);
-
-
+    LiveData<List<Ingredient>> findIngredientsForRecipe(int recipeId);
 }

@@ -26,6 +26,10 @@ public class Ingredient {
         this.id = id;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public Double getQuantity() {
         return quantity;
     }

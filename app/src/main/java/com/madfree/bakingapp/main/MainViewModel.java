@@ -2,6 +2,7 @@ package com.madfree.bakingapp.main;
 
 import android.app.Application;
 
+import com.madfree.bakingapp.data.AppDatabase;
 import com.madfree.bakingapp.data.Recipe;
 import com.madfree.bakingapp.repository.RecipeRepository;
 
@@ -14,14 +15,17 @@ import androidx.lifecycle.LiveData;
 public class MainViewModel extends AndroidViewModel {
 
     private LiveData<List<Recipe>> recipesListObservable;
-    private RecipeRepository recipeRepository = new RecipeRepository();
+    private RecipeRepository recipeRepository;
+
 
     public MainViewModel(@NonNull Application application) {
         super(application);
-        recipesListObservable =  recipeRepository.fetchRecipesFromWeb();
+        recipeRepository = new RecipeRepository(application);
+        recipesListObservable = recipeRepository.getAllRecipes();
     }
 
     public LiveData<List<Recipe>> getRecipesListObservable() {
         return recipesListObservable;
     }
+
 }

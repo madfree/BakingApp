@@ -16,17 +16,19 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.madfree.bakingapp.R;
+import com.madfree.bakingapp.data.AppDatabase;
 import com.madfree.bakingapp.data.Recipe;
 import com.madfree.bakingapp.detail.DetailActivity;
+import com.madfree.bakingapp.utils.AppExecutors;
 import com.madfree.bakingapp.utils.EspressoIdlingResource;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecipesListAdapter.ItemClickListener {
+public class MainActivity extends AppCompatActivity implements RecipeAdapter.ItemClickListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static final String RECIPE_ID = "RECIPE_ID";
-    private RecipesListAdapter mAdapter;
+    private RecipeAdapter mAdapter;
     private EspressoIdlingResource mEspressoIdlingResource;
 
     @VisibleForTesting
@@ -42,9 +44,17 @@ public class MainActivity extends AppCompatActivity implements RecipesListAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppDatabase db = AppDatabase.getsInstance(getApplication());
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                int count = db.recipeDao().count();
+                Log.d(LOG_TAG, "There are " + count + " recipes in the database");
+            }
+        });
 
         RecyclerView mRecyclerView = findViewById(R.id.recipes_recyclerView);
-        mAdapter = new RecipesListAdapter(this, this);
+        mAdapter = new RecipeAdapter(this, this);
         if (getApplication().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         } else {
@@ -76,6 +86,6 @@ public class MainActivity extends AppCompatActivity implements RecipesListAdapte
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(RECIPE_ID, clickedRecipe.getId());
         startActivity(intent);
-        //Toast.makeText(this, "This is the clicked recipe: " + clickedRecipe.getId(), Toast.LENGTH_SHORT).show();
+        Log.d(LOG_TAG, "Starting DetailActivity with Recipe: " + clickedRecipe.getName());
     }
 }

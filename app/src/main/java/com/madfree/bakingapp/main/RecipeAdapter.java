@@ -15,15 +15,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.RecipeViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    public static final String LOG_TAG = RecipesListAdapter.class.getSimpleName();
+    public static final String LOG_TAG = RecipeAdapter.class.getSimpleName();
 
     private final Context mContext;
     final private ItemClickListener mListener;
     private List<Recipe> mRecipeList;
 
-    public RecipesListAdapter(Context context, ItemClickListener listener) {
+    public RecipeAdapter(Context context, ItemClickListener listener) {
         this.mContext = context;
         this.mListener = listener;
     }
