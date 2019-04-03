@@ -33,6 +33,7 @@ public class DetailListFragment extends Fragment {
     private DetailViewModel sharedViewModel;
     private IngredientsAdapter ingredientsAdapter;
     private StepsAdapter stepsAdapter;
+    private DetailActivity parent;
 
     @Nullable
     @Override
@@ -40,7 +41,6 @@ public class DetailListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lists, container, false);
         Log.d(LOG_TAG, "Starting DetaiListFragement");
-
 
         sharedViewModel = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
 
