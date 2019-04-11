@@ -34,9 +34,23 @@ public class DetailActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         DetailListFragment detailListFragment = new DetailListFragment();
-        fragmentManager.beginTransaction()
-                .add(R.id.list_container, detailListFragment)
-                .commit();
+
+
+        if (findViewById(R.id.info_container) != null) {
+            mTwoPane = true;
+
+            DetailInfoFragment detailInfoFragment = new DetailInfoFragment();
+            fragmentManager.beginTransaction()
+                    .add(R.id.list_container, detailListFragment)
+                    .add(R.id.info_container, detailInfoFragment)
+                    .commit();
+        } else {
+            mTwoPane = false;
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.list_container, detailListFragment)
+                    .commit();
+        }
     }
 
     public int getRecipe() {

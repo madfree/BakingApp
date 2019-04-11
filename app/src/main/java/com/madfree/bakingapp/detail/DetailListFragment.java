@@ -16,6 +16,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -24,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static java.lang.Integer.valueOf;
 
-public class DetailListFragment extends Fragment {
+public class DetailListFragment extends Fragment implements StepsAdapter.ItemClickListener {
 
     public static final String LOG_TAG = DetailListFragment.class.getSimpleName();
 
@@ -34,6 +35,7 @@ public class DetailListFragment extends Fragment {
     private IngredientsAdapter ingredientsAdapter;
     private StepsAdapter stepsAdapter;
     private DetailActivity parent;
+    private boolean mTwoPane;
 
     @Nullable
     @Override
@@ -62,7 +64,7 @@ public class DetailListFragment extends Fragment {
 
         stepsListView = (RecyclerView) view.findViewById(R.id.recycler_view_steps);
         stepsListView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        stepsAdapter = new StepsAdapter(this.getActivity());
+        stepsAdapter = new StepsAdapter(this.getActivity(), this);
         stepsListView.setAdapter(stepsAdapter);
 
         sharedViewModel.getStepsList().observe(this, new Observer<List<Step>>() {
@@ -75,13 +77,26 @@ public class DetailListFragment extends Fragment {
                 }
             }
         });
-
-
         return view;
     }
 
-//    @Override
-//    public void onItemClickListener(Step clickedStep) {
-//        sharedViewModel.setSelectedStep(clickedStep);
-//    }
+    @Override
+    public void onItemClickListener(int clickedStep) {
+        sharedViewModel.setSelectedStep(clickedStep);
+
+        if (getActivity().findViewById(R.id.info_container) != null) {
+            mTwoPane = true;
+            Fragment detailInfoFragment = new DetailInfoFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.info_container, detailInfoFragment ); // give your fragment container id in first parameter
+            transaction.commit();
+        } else {
+            mTwoPane = false;
+            Fragment detailInfoFragment = new DetailInfoFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.list_container, detailInfoFragment ); // give your fragment container id in first parameter
+            transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+            transaction.commit();
+        }
+    }
 }

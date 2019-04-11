@@ -34,6 +34,7 @@ public class RecipeRepository {
     private LiveData<List<Recipe>> allRecipes;
     private LiveData<List<Ingredient>> ingredientList;
     private LiveData<List<Step>> stepsList;
+    private LiveData<Step> stepInfo;
     AppExecutors mExecutors;
     AppDatabase mDb;
 
@@ -54,7 +55,15 @@ public class RecipeRepository {
 
     public LiveData<List<Step>> getStepsForRecipe(int recipeId) {
         stepsList = mDb.stepDao().findStepsForRecipe(recipeId);
-        //Log.d(LOG_TAG, "Loading ingredientsList with size: " + ingredientList.getValue().size());
+        //Log.d(LOG_TAG, "Loading stepsList with size: " + stepsList.getValue().size());
         return stepsList;
     }
+
+    public LiveData<Step> getStepInfo(int recipeId, int stepId) {
+        stepInfo = mDb.stepDao().findStepInfo(recipeId,stepId);
+        //Log.d(LOG_TAG, "Loading stepInfo with description: " + stepInfo.getValue().getShortDescription());
+        return stepInfo;
+    }
+
+
 }

@@ -27,9 +27,10 @@ public class DetailViewModel extends AndroidViewModel {
     public static final String LOG_TAG = DetailViewModel.class.getSimpleName();
 
     private final MutableLiveData<Integer> selectedRecipe = new MutableLiveData<>();
-    private final MutableLiveData<Step> selectedStep = new MutableLiveData<>();
+    private final MutableLiveData<Integer> selectedStep = new MutableLiveData<>();
     private LiveData<List<Ingredient>> ingredientsList;
     private LiveData<List<Step>> stepsList;
+    private LiveData<Step> stepInfo;
     private RecipeRepository recipeRepository;
 
 
@@ -62,8 +63,16 @@ public class DetailViewModel extends AndroidViewModel {
         return stepsList;
     }
 
+    public LiveData<Step> getStepInfo() {
+        if (selectedStep.getValue() == null) {
+            stepInfo = recipeRepository.getStepInfo(selectedRecipe.getValue(), 0);
+        } else {
+            stepInfo = recipeRepository.getStepInfo(selectedRecipe.getValue(), selectedStep.getValue());
+        }
+        return stepInfo;
+    }
 
-    public void setSelectedStep(Step clickedStep) {
+    public void setSelectedStep(int clickedStep) {
         selectedStep.setValue(clickedStep);
     }
 }

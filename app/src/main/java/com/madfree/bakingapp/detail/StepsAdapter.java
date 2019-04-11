@@ -20,12 +20,13 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     public static final String LOG_TAG = StepsAdapter.class.getSimpleName();
 
     private final Context mContext;
+    final private ItemClickListener mListener;
 
     private List<Step> mStepsList;
 
-    public StepsAdapter(Context context) {
+    public StepsAdapter(Context context, ItemClickListener listener) {
         this.mContext = context;
-
+        this.mListener = listener;
     }
 
     @NonNull
@@ -61,23 +62,23 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     }
 
     public interface ItemClickListener {
-        void onItemClickListener(Step  clickedStep);
+        void onItemClickListener(int clickedStep);
     }
 
-    class StepsViewHolder extends RecyclerView.ViewHolder {
+    class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView stepsNameView;
 
         StepsViewHolder(@NonNull View itemView) {
             super(itemView);
             stepsNameView = itemView.findViewById(R.id.stepsNameTextView);
-//            itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
-//        @Override
-//        public void onClick(View view) {
-//            int elementId = getAdapterPosition();
-//            Step step = mStepsList.get(elementId);
-//            mListener.onItemClickListener(step);
-//        }
+        @Override
+        public void onClick(View view) {
+            int elementId = getAdapterPosition();
+            int stepId = mStepsList.get(elementId).getStepId();
+            mListener.onItemClickListener(stepId);
+        }
     }
 }
