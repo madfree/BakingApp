@@ -3,21 +3,29 @@ package com.madfree.bakingapp.detail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.madfree.bakingapp.R;
+import com.madfree.bakingapp.data.Recipe;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class DetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
     public static final String RECIPE_ID = "RECIPE_ID";
+    private DetailViewModel sharedViewModel;
     private int recipeId;
     private boolean mTwoPane;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,7 +34,7 @@ public class DetailActivity extends AppCompatActivity {
         recipeId = intent.getIntExtra(RECIPE_ID, 0);
         Log.d(LOG_TAG, "Starting DetailActivity with this recipeId from MainActivity: " + recipeId);
 
-        DetailViewModel sharedViewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
+        sharedViewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
         sharedViewModel.setSelectedRecipe(recipeId);
         Log.d(LOG_TAG, "Set recipeId in sharedViewModel in DetailActivity to: " + recipeId);
 
@@ -56,4 +64,46 @@ public class DetailActivity extends AppCompatActivity {
     public int getRecipe() {
         return recipeId;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        Log.d(LOG_TAG, "Setting up the menu");
+        final MenuItem item = menu.findItem(R.id.action_favourite);
+
+        sharedViewModel.getRecipe().observe(this, new Observer<Recipe>() {
+            @Override
+            public void onChanged(Recipe recipe) {
+                boolean favorite = recipe.getFavorite();
+                if (!favorite) {
+                    Log.d(LOG_TAG, "Status of favorite in selected Recipe is: " + favorite);
+                    item.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_no_favorite));
+                } else {
+                    item.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite));
+                    Log.d(LOG_TAG, "Status of favorite in selected Recipe is: " + favorite);
+                }
+            }
+        });
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_favourite:
+                sharedViewModel.setFavorite(recipeId);
+                item.setIcon(ContextCompat.getDrawable(getApplicationContext()
+                        , R.drawable.ic_favorite));
+                //updateWidget();
+        }
+        return true;
+    }
+
+
 }

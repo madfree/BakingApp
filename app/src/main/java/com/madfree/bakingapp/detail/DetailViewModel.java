@@ -52,6 +52,10 @@ public class DetailViewModel extends AndroidViewModel {
         return selectedRecipe;
     }
 
+    public LiveData<Recipe> getRecipe() {
+        return recipeRepository.getRecipe(selectedRecipe.getValue());
+    }
+
     public LiveData<List<Ingredient>> getIngredientsList() {
         //Log.d(LOG_TAG, "Calling repository for list of ingredients for recipeId: " + recipeId);
         ingredientsList = recipeRepository.getIngredientsForRecipe(selectedRecipe.getValue());
@@ -74,5 +78,9 @@ public class DetailViewModel extends AndroidViewModel {
 
     public void setSelectedStep(int clickedStep) {
         selectedStep.setValue(clickedStep);
+    }
+
+    public void setFavorite(int recipeId) {
+        recipeRepository.setFavorite(recipeId);
     }
 }

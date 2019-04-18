@@ -51,7 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             // TODO: Change to onOpen() before submit
-            super.onOpen(db);
+            super.onCreate(db);
             fetchRecipeData();
             Log.d(LOG_TAG, "roomCallback starting to set up database");
         }
@@ -97,7 +97,8 @@ public abstract class AppDatabase extends RoomDatabase {
                 int recipeId = lists[0].get(i).getId();
                 int servings = lists[0].get(i).getServings();
                 String imageUrl = lists[0].get(i).getImage();
-                Recipe newRecipe = new Recipe(recipeId, recipeName, servings, imageUrl);
+                boolean favorite = false;
+                Recipe newRecipe = new Recipe(recipeId, recipeName, servings, imageUrl, favorite);
                 recipeDao.insert(newRecipe);
                 Log.d(LOG_TAG, "Inserted recipe: " + recipeName);
 

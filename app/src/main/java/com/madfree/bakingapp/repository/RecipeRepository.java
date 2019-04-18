@@ -47,6 +47,10 @@ public class RecipeRepository {
         return allRecipes;
     }
 
+    public LiveData<Recipe> getRecipe(int recipeId) {
+        return mDb.recipeDao().findById(recipeId);
+    }
+
     public LiveData<List<Ingredient>> getIngredientsForRecipe(int recipeId) {
         ingredientList = mDb.ingredientDao().findIngredientsForRecipe(recipeId);
         //Log.d(LOG_TAG, "Loading ingredientsList with size: " + ingredientList.getValue().size());
@@ -65,5 +69,14 @@ public class RecipeRepository {
         return stepInfo;
     }
 
-
+    public void setFavorite(int recipeId) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.recipeDao().removeFavorite();
+                mDb.recipeDao().setFavorite(true, recipeId);
+                Log.d(LOG_TAG, "Set new favorite recipe: " + recipeId);
+            }
+        });
+    }
 }

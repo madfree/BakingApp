@@ -3,6 +3,7 @@ package com.madfree.bakingapp.data;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,10 +16,16 @@ public interface RecipeDao {
     LiveData<List<Recipe>> getAllRecipes();
 
     @Query("SELECT * FROM recipe WHERE id=:id")
-    Recipe findById(int id);
+    LiveData<Recipe> findById(int id);
 
     @Query("SELECT count(*) FROM Recipe")
     int count();
+
+    @Query("UPDATE Recipe SET isFavorite=:newFavorite WHERE id=:id ")
+    void setFavorite(boolean newFavorite, int id);
+
+    @Query("UPDATE Recipe SET isFavorite=0")
+    void removeFavorite();
 
     @Insert
     void insertAll(Recipe... recipes);
@@ -28,4 +35,5 @@ public interface RecipeDao {
 
     @Delete
     void delete(Recipe recipe);
+
 }
