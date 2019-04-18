@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.madfree.bakingapp.R;
 import com.madfree.bakingapp.data.Ingredient;
 import com.madfree.bakingapp.data.Step;
@@ -88,14 +89,14 @@ public class DetailListFragment extends Fragment implements StepsAdapter.ItemCli
             mTwoPane = true;
             Fragment detailInfoFragment = new DetailInfoFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.info_container, detailInfoFragment ); // give your fragment container id in first parameter
+            transaction.replace(R.id.info_container, detailInfoFragment );
             transaction.commit();
         } else {
             mTwoPane = false;
             Fragment detailInfoFragment = new DetailInfoFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.list_container, detailInfoFragment ); // give your fragment container id in first parameter
-            transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+            transaction.replace(R.id.list_container, detailInfoFragment );
+            transaction.addToBackStack(null);
             transaction.commit();
         }
     }
