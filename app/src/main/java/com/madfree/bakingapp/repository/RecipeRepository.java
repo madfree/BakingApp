@@ -34,6 +34,7 @@ public class RecipeRepository {
     private LiveData<List<Recipe>> allRecipes;
     private LiveData<List<Ingredient>> ingredientList;
     private LiveData<List<Step>> stepsList;
+    private LiveData<Recipe> recipeInfo;
     private LiveData<Step> stepInfo;
     AppExecutors mExecutors;
     AppDatabase mDb;

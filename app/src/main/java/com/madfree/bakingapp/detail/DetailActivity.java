@@ -38,6 +38,13 @@ public class DetailActivity extends AppCompatActivity {
         sharedViewModel.setSelectedRecipe(recipeId);
         Log.d(LOG_TAG, "Set recipeId in sharedViewModel in DetailActivity to: " + recipeId);
 
+        sharedViewModel.getRecipe().observe(this, new Observer<Recipe>() {
+            @Override
+            public void onChanged(Recipe recipe) {
+                setTitle(recipe.getName());
+            }
+        });
+
         setContentView(R.layout.activity_detail);
 
         FragmentManager fragmentManager = getSupportFragmentManager();

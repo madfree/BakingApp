@@ -27,6 +27,9 @@ public interface RecipeDao {
     @Query("UPDATE Recipe SET isFavorite=0")
     void removeFavorite();
 
+    @Query("SELECT * FROM Recipe WHERE isFavorite=1")
+    Recipe getFavorite();
+
     @Insert
     void insertAll(Recipe... recipes);
 

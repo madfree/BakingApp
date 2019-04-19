@@ -26,4 +26,7 @@ public interface IngredientDao {
 
     @Query("SELECT * FROM ingredient WHERE recipeId=:recipeId")
     LiveData<List<Ingredient>> findIngredientsForRecipe(int recipeId);
+
+    @Query("SELECT * FROM Ingredient WHERE recipeId=:recipeId")
+    List<Ingredient> loadIngredientsForWidget(int recipeId);
 }
