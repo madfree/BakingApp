@@ -1,5 +1,7 @@
 package com.madfree.bakingapp.detail;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 
 import com.madfree.bakingapp.R;
 import com.madfree.bakingapp.data.Recipe;
+import com.madfree.bakingapp.widget.IngredientsWidget;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +49,9 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         setContentView(R.layout.activity_detail);
+        if (savedInstanceState != null) {
+            return;
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         DetailListFragment detailListFragment = new DetailListFragment();
@@ -105,12 +111,17 @@ public class DetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_favourite:
                 sharedViewModel.setFavorite(recipeId);
-                item.setIcon(ContextCompat.getDrawable(getApplicationContext()
-                        , R.drawable.ic_favorite));
-                //updateWidget();
+                item.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite));
+                updateWidget();
         }
         return true;
     }
 
+    public void updateWidget() {
+        int[] ids =
+                AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), IngredientsWidget.class));
+        IngredientsWidget newWidget = new IngredientsWidget();
+        newWidget.onUpdate(this, AppWidgetManager.getInstance(this), ids);
+    }
 
 }

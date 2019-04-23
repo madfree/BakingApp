@@ -1,8 +1,10 @@
 package com.madfree.bakingapp.detail;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,10 +68,13 @@ public class DetailInfoFragment extends Fragment {
             @Override
             public void onChanged(Step step) {
                 Log.d(LOG_TAG, "Getting stepInfo of stepId: " + step.getStepId() + " from sharedViewModel");
-                mStepDescription.setText(step.getDescription());
                 mThumbnail = step.getThumbnailURL();
                 mVideoUrl = step.getVideoURL();
                 Log.d(LOG_TAG, "Getting videoUrl of stepId: " + step.getVideoURL() + " from sharedViewModel");
+                int orientation = getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    mStepDescription.setText(step.getDescription());
+                }
                 setupUI(true);
             }
         });

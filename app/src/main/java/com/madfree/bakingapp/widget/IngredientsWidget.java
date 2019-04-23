@@ -7,13 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.madfree.bakingapp.R;
-import com.madfree.bakingapp.data.AppDatabase;
-import com.madfree.bakingapp.data.Recipe;
-import com.madfree.bakingapp.utils.AppExecutors;
-
+import com.madfree.bakingapp.repository.RecipeRepository;
 import androidx.annotation.NonNull;
 
 public class IngredientsWidget extends AppWidgetProvider {
@@ -24,22 +22,16 @@ public class IngredientsWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        AppDatabase db = AppDatabase.getsInstance(context);
+        RecipeRepository repository = new RecipeRepository(context);
+        String recipeName = repository.getFavoriteRecipe();
+        Log.d(LOG_TAG, "This is the recipe name for the widget " + recipeName);
 
         Intent serviceIntent = new Intent(context, IngredientsWidgetService.class);
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_widget);
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                Recipe favoriteRecipe = db.recipeDao().getFavorite();
-                String recipeName = favoriteRecipe.getName();
-                views.setTextViewText(R.id.appwidget_text, recipeName);
-
-            }
-        });
+        views.setTextViewText(R.id.appwidget_text, recipeName);
         views.setRemoteAdapter(R.id.widget_list, serviceIntent);
         views.setEmptyView(R.id.widget_list, R.id.empty_view);
 

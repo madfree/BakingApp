@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.TextView;
 
 import com.madfree.bakingapp.data.AppDatabase;
 import com.madfree.bakingapp.data.Ingredient;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     public static final String LOG_TAG = WidgetDataProvider.class.getSimpleName();
 
     private List<Ingredient> mIngredientsList;
+    private String recipeName;
     private Context mContext;
     private int mAppWidgetId;
     private int favoriteRecipe;
