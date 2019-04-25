@@ -27,7 +27,8 @@ public class IngredientsWidget extends AppWidgetProvider {
         serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_FAVORITE, Context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_FAVORITE,
+                Context.MODE_PRIVATE);
         String recipeName = prefs.getString("favName", "EMPTY");
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredients_widget);

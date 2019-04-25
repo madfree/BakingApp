@@ -43,12 +43,7 @@ public class DetailActivity extends AppCompatActivity {
         sharedViewModel.setSelectedRecipe(recipeId);
         Log.d(LOG_TAG, "Set recipeId in sharedViewModel in DetailActivity to: " + recipeId);
 
-        sharedViewModel.getRecipe().observe(this, new Observer<Recipe>() {
-            @Override
-            public void onChanged(Recipe recipe) {
-                setTitle(recipe.getName());
-            }
-        });
+        sharedViewModel.getRecipe().observe(this, recipe -> setTitle(recipe.getName()));
 
         setContentView(R.layout.activity_detail);
         if (savedInstanceState != null) {
@@ -92,17 +87,16 @@ public class DetailActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Setting up the menu");
         final MenuItem item = menu.findItem(R.id.action_favourite);
 
-        sharedViewModel.getRecipe().observe(this, new Observer<Recipe>() {
-            @Override
-            public void onChanged(Recipe recipe) {
-                boolean favorite = recipe.getFavorite();
-                if (!favorite) {
-                    Log.d(LOG_TAG, "Status of favorite in selected Recipe is: " + favorite);
-                    item.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_no_favorite));
-                } else {
-                    item.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite));
-                    Log.d(LOG_TAG, "Status of favorite in selected Recipe is: " + favorite);
-                }
+        sharedViewModel.getRecipe().observe(this, recipe -> {
+            boolean favorite = recipe.getFavorite();
+            if (!favorite) {
+                Log.d(LOG_TAG, "Status of favorite in selected Recipe is: " + favorite);
+                item.setIcon(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.ic_no_favorite));
+            } else {
+                item.setIcon(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.ic_favorite));
+                Log.d(LOG_TAG, "Status of favorite in selected Recipe is: " + favorite);
             }
         });
         return super.onPrepareOptionsMenu(menu);
@@ -113,15 +107,14 @@ public class DetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_favourite:
                 sharedViewModel.setFavorite(recipeId);
-                SharedPreferences.Editor editor = getSharedPreferences(PREFS_FAVORITE, MODE_PRIVATE).edit();
-                sharedViewModel.getRecipe().observe(this, new Observer<Recipe>() {
-                    @Override
-                    public void onChanged(Recipe recipe) {
-                        editor.putString("favName", recipe.getName());
-                        editor.apply();
-                    }
+                SharedPreferences.Editor editor = getSharedPreferences(PREFS_FAVORITE,
+                        MODE_PRIVATE).edit();
+                sharedViewModel.getRecipe().observe(this, recipe -> {
+                    editor.putString("favName", recipe.getName());
+                    editor.apply();
                 });
-                item.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite));
+                item.setIcon(ContextCompat.getDrawable(getApplicationContext(),
+                        R.drawable.ic_favorite));
                 updateWidget();
         }
         return true;

@@ -1,6 +1,7 @@
 package com.madfree.bakingapp.utils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import androidx.test.espresso.IdlingResource;
 import androidx.annotation.Nullable;
 
@@ -9,7 +10,6 @@ public class EspressoIdlingResource implements IdlingResource {
     @Nullable
     private volatile ResourceCallback mCallback;
 
-    // Idleness is controlled with this boolean.
     private AtomicBoolean mIsIdleNow = new AtomicBoolean(true);
 
     @Override

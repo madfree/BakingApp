@@ -8,19 +8,12 @@ import com.madfree.bakingapp.data.Recipe;
 import com.madfree.bakingapp.data.Step;
 import com.madfree.bakingapp.repository.RecipeRepository;
 
-import java.util.LinkedList;
 import java.util.List;
-
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
 
 public class DetailViewModel extends AndroidViewModel {
 
@@ -43,8 +36,6 @@ public class DetailViewModel extends AndroidViewModel {
     public void setSelectedRecipe(int recipeId) {
         selectedRecipe.setValue(recipeId);
         Log.d(LOG_TAG, "Set selectedRecipe to: " + selectedRecipe.getValue());
-        //ingredientsList = recipeRepository.getIngredientsForRecipe(recipeId);
-        //Log.d(LOG_TAG, "The ingredientList from repos has size: " + ingredientsList.getValue().size());
     }
 
     public MutableLiveData<Integer> getSelectedRecipe() {
@@ -71,7 +62,8 @@ public class DetailViewModel extends AndroidViewModel {
         if (selectedStep.getValue() == null) {
             stepInfo = recipeRepository.getStepInfo(selectedRecipe.getValue(), 0);
         } else {
-            stepInfo = recipeRepository.getStepInfo(selectedRecipe.getValue(), selectedStep.getValue());
+            stepInfo = recipeRepository.getStepInfo(selectedRecipe.getValue(),
+                    selectedStep.getValue());
         }
         return stepInfo;
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
 import com.madfree.bakingapp.data.AppDatabase;
 import com.madfree.bakingapp.data.Ingredient;
 import com.madfree.bakingapp.data.Recipe;
@@ -21,8 +22,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     private int recipeId;
     private Context mContext;
     private int mAppWidgetId;
-
-    AppDatabase db;
+    private AppDatabase db;
 
     public WidgetDataProvider(Context context, Intent intent) {
         this.mContext = context;
@@ -42,7 +42,8 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
             favoriteRecipe = db.recipeDao().getFavorite();
             recipeId = favoriteRecipe.getId();
             mIngredientsList = db.ingredientDao().loadIngredientsForWidget(recipeId);
-            Log.d(LOG_TAG, "onDataSetChanged: got a list from database with " + mIngredientsList.size() + " ingredients");
+            Log.d(LOG_TAG,
+                    "onDataSetChanged: got a list from database with " + mIngredientsList.size() + " ingredients");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

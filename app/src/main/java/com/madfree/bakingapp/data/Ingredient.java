@@ -9,9 +9,9 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(indices = {@Index(value = "recipeId")},
         foreignKeys = @ForeignKey(entity = Recipe.class,
-        parentColumns = "id",
-        childColumns = "recipeId",
-        onDelete = CASCADE))
+                parentColumns = "id",
+                childColumns = "recipeId",
+                onDelete = CASCADE))
 public class Ingredient {
 
     @PrimaryKey(autoGenerate = true)

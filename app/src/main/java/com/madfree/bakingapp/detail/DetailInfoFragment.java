@@ -67,10 +67,12 @@ public class DetailInfoFragment extends Fragment {
         sharedViewModel.getStepInfo().observe(this, new Observer<Step>() {
             @Override
             public void onChanged(Step step) {
-                Log.d(LOG_TAG, "Getting stepInfo of stepId: " + step.getStepId() + " from sharedViewModel");
+                Log.d(LOG_TAG, "Getting stepInfo of stepId: " + step.getStepId() + " from " +
+                        "sharedViewModel");
                 mThumbnail = step.getThumbnailURL();
                 mVideoUrl = step.getVideoURL();
-                Log.d(LOG_TAG, "Getting videoUrl of stepId: " + step.getVideoURL() + " from sharedViewModel");
+                Log.d(LOG_TAG, "Getting videoUrl of stepId: " + step.getVideoURL() + " from " +
+                        "sharedViewModel");
                 int orientation = getResources().getConfiguration().orientation;
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                     mStepDescription.setText(step.getDescription());
@@ -106,10 +108,13 @@ public class DetailInfoFragment extends Fragment {
 
     private void initExoPlayer(Uri video, boolean hasVideoSource) {
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelection.Factory videoTrackSelectionFactory =
+                new AdaptiveTrackSelection.Factory(bandwidthMeter);
         TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(), Util.getUserAgent(getContext(), getString(R.string.app_name)), bandwidthMeter);
-        MediaSource videoSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(video);
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
+                Util.getUserAgent(getContext(), getString(R.string.app_name)), bandwidthMeter);
+        MediaSource videoSource =
+                new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(video);
         if (mPlayer == null) {
             mPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
             mPlayerView.setPlayer(mPlayer);

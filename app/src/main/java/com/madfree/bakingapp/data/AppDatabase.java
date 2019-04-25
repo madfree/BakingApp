@@ -10,26 +10,29 @@ import com.madfree.bakingapp.network.RetrofitInstance;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-@Database(entities = {Recipe.class, Ingredient.class, Step.class}, version = 1, exportSchema = false)
+@Database(entities = {Recipe.class, Ingredient.class, Step.class}, version = 1, exportSchema =
+        false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
     private static final String DATABASE_NAME = "recipes_db";
     private static AppDatabase sInstance;
-
-    public abstract RecipeDao recipeDao();
-    public abstract IngredientDao ingredientDao();
-    public abstract StepDao stepDao();
+    private static RoomDatabase.Callback roomCallback = new AppDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            fetchRecipeData();
+            Log.d(LOG_TAG, "roomCallback starting to set up database");
+        }
+    };
 
     public static AppDatabase getsInstance(Context context) {
 
@@ -46,16 +49,6 @@ public abstract class AppDatabase extends RoomDatabase {
         Log.d(LOG_TAG, "Getting the database instance");
         return sInstance;
     }
-
-    private static RoomDatabase.Callback roomCallback = new AppDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            // TODO: Change to onOpen() before submit
-            super.onCreate(db);
-            fetchRecipeData();
-            Log.d(LOG_TAG, "roomCallback starting to set up database");
-        }
-    };
 
     private static void fetchRecipeData() {
         final RecipeService recipeService = RetrofitInstance.getsInstance();
@@ -75,6 +68,12 @@ public abstract class AppDatabase extends RoomDatabase {
             }
         });
     }
+
+    public abstract RecipeDao recipeDao();
+
+    public abstract IngredientDao ingredientDao();
+
+    public abstract StepDao stepDao();
 
     private static class PopulateDbAsync extends AsyncTask<List<Recipe>, Void, Void> {
 

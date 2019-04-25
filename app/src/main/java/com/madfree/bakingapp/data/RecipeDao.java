@@ -3,9 +3,7 @@ package com.madfree.bakingapp.data;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -31,12 +29,6 @@ public interface RecipeDao {
     Recipe getFavorite();
 
     @Insert
-    void insertAll(Recipe... recipes);
-
-    @Insert
-    void insert (Recipe recipe);
-
-    @Delete
-    void delete(Recipe recipe);
+    void insert(Recipe recipe);
 
 }
