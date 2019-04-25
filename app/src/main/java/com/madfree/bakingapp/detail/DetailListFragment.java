@@ -7,16 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.madfree.bakingapp.R;
-import com.madfree.bakingapp.data.Ingredient;
-import com.madfree.bakingapp.data.Step;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

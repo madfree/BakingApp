@@ -11,9 +11,9 @@ import org.junit.runner.RunWith;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.IdlingResource;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -26,13 +26,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class BakingAppTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class) {
+    public ActivityTestRule<MainActivity> activityTestRule =
+            new ActivityTestRule<MainActivity>(MainActivity.class) {
     };
 
     private IdlingResource mIdlingResource;
 
     @Before
-    public void registerIdlingResource(){
+    public void registerIdlingResource() {
         mIdlingResource = activityTestRule.getActivity().getIdlingResource();
         IdlingRegistry.getInstance().register(mIdlingResource);
     }

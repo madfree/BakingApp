@@ -2,7 +2,6 @@ package com.madfree.bakingapp.main;
 
 import android.app.Application;
 
-import com.madfree.bakingapp.data.AppDatabase;
 import com.madfree.bakingapp.data.Recipe;
 import com.madfree.bakingapp.repository.RecipeRepository;
 

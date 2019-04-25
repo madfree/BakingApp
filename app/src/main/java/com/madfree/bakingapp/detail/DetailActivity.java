@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.madfree.bakingapp.R;
-import com.madfree.bakingapp.data.Recipe;
 import com.madfree.bakingapp.widget.IngredientsWidget;
 
 import androidx.annotation.Nullable;
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class DetailActivity extends AppCompatActivity {

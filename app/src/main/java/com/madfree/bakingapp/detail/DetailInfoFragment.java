@@ -64,21 +64,18 @@ public class DetailInfoFragment extends Fragment {
         mPlayerView = view.findViewById(R.id.player_view);
         mStepDescription = view.findViewById(R.id.step_description_txt);
 
-        sharedViewModel.getStepInfo().observe(this, new Observer<Step>() {
-            @Override
-            public void onChanged(Step step) {
-                Log.d(LOG_TAG, "Getting stepInfo of stepId: " + step.getStepId() + " from " +
-                        "sharedViewModel");
-                mThumbnail = step.getThumbnailURL();
-                mVideoUrl = step.getVideoURL();
-                Log.d(LOG_TAG, "Getting videoUrl of stepId: " + step.getVideoURL() + " from " +
-                        "sharedViewModel");
-                int orientation = getResources().getConfiguration().orientation;
-                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    mStepDescription.setText(step.getDescription());
-                }
-                setupUI(true);
+        sharedViewModel.getStepInfo().observe(this, step -> {
+            Log.d(LOG_TAG, "Getting stepInfo of stepId: " + step.getStepId() + " from " +
+                    "sharedViewModel");
+            mThumbnail = step.getThumbnailURL();
+            mVideoUrl = step.getVideoURL();
+            Log.d(LOG_TAG, "Getting videoUrl of stepId: " + step.getVideoURL() + " from " +
+                    "sharedViewModel");
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mStepDescription.setText(step.getDescription());
             }
+            setupUI(true);
         });
         return view;
     }
