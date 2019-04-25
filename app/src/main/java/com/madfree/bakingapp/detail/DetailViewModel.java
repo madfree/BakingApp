@@ -83,4 +83,5 @@ public class DetailViewModel extends AndroidViewModel {
     public void setFavorite(int recipeId) {
         recipeRepository.setFavorite(recipeId);
     }
+
 }

@@ -29,14 +29,10 @@ public class RecipeRepository {
 
     public static final String LOG_TAG = RecipeRepository.class.getSimpleName();
 
-    private final MutableLiveData<Recipe> selectedRecipe = new MutableLiveData<>();
-    private final MutableLiveData<Step> selectedStep = new MutableLiveData<>();
     private LiveData<List<Recipe>> allRecipes;
     private LiveData<List<Ingredient>> ingredientList;
     private LiveData<List<Step>> stepsList;
-    private String favoriteRecipeName;
     private LiveData<Step> stepInfo;
-    AppExecutors mExecutors;
     AppDatabase mDb;
 
     public RecipeRepository(Context context) {
@@ -80,16 +76,5 @@ public class RecipeRepository {
                 Log.d(LOG_TAG, "Set new favorite recipe: " + recipeId);
             }
         });
-    }
-
-    public String getFavoriteRecipe() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                favoriteRecipeName = mDb.recipeDao().getFavorite().getName();
-                Log.d(LOG_TAG, "Fetching the recipe name from db: " + favoriteRecipeName);
-            }
-        });
-        return favoriteRecipeName;
     }
 }

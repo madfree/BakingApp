@@ -3,6 +3,7 @@ package com.madfree.bakingapp.detail;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders;
 public class DetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+    public static final String PREFS_FAVORITE = "Prefs_Favorite";
     public static final String RECIPE_ID = "RECIPE_ID";
     private DetailViewModel sharedViewModel;
     private int recipeId;
@@ -111,6 +113,14 @@ public class DetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_favourite:
                 sharedViewModel.setFavorite(recipeId);
+                SharedPreferences.Editor editor = getSharedPreferences(PREFS_FAVORITE, MODE_PRIVATE).edit();
+                sharedViewModel.getRecipe().observe(this, new Observer<Recipe>() {
+                    @Override
+                    public void onChanged(Recipe recipe) {
+                        editor.putString("favName", recipe.getName());
+                        editor.apply();
+                    }
+                });
                 item.setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite));
                 updateWidget();
         }
@@ -118,10 +128,12 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void updateWidget() {
-        int[] ids =
-                AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), IngredientsWidget.class));
-        IngredientsWidget newWidget = new IngredientsWidget();
-        newWidget.onUpdate(this, AppWidgetManager.getInstance(this), ids);
+        Intent intent = new Intent(this, IngredientsWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication())
+                .getAppWidgetIds(new ComponentName(getApplication(), IngredientsWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 
 }
