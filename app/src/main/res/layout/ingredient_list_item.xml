@@ -7,20 +7,20 @@
             android:id="@+id/ingredients_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:text="quantity"/>
 
         <TextView
             android:id="@+id/ingredients_measure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:text="measure" />
 
         <TextView
             android:id="@+id/ingredients_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:text="name"/>
     </LinearLayout>

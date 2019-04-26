@@ -51,7 +51,6 @@ public class DetailActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         DetailListFragment detailListFragment = new DetailListFragment();
 
-
         if (findViewById(R.id.info_container) != null) {
             mTwoPane = true;
 
@@ -62,7 +61,6 @@ public class DetailActivity extends AppCompatActivity {
                     .commit();
         } else {
             mTwoPane = false;
-
             fragmentManager.beginTransaction()
                     .add(R.id.list_container, detailListFragment)
                     .commit();

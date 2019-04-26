@@ -25,7 +25,7 @@ public class DetailViewModel extends AndroidViewModel {
     private LiveData<List<Step>> stepsList;
     private LiveData<Step> stepInfo;
     private RecipeRepository recipeRepository;
-
+    private long playerPosition = 0;
 
     public DetailViewModel(@NonNull Application application) {
         super(application);
@@ -76,4 +76,11 @@ public class DetailViewModel extends AndroidViewModel {
         recipeRepository.setFavorite(recipeId);
     }
 
+    public long getPlayerPosition() {
+        return playerPosition;
+    }
+
+    public void setPlayerPosition(long playerPosition) {
+        this.playerPosition = playerPosition;
+    }
 }

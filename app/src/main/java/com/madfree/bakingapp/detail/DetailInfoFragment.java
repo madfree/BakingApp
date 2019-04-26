@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,17 +28,18 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.madfree.bakingapp.R;
-import com.madfree.bakingapp.data.Step;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class DetailInfoFragment extends Fragment {
 
     public static final String LOG_TAG = DetailInfoFragment.class.getSimpleName();
+
+    private static final String POSITION_PLAYER = "POSITION";
+    private static final String PLAY_WHEN_READY_KEY = "PLAY_WHEN_READY";
 
     private DetailViewModel sharedViewModel;
     private TextView mStepDescription;
@@ -56,7 +56,12 @@ public class DetailInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
-        Log.d(LOG_TAG, "Starting DetaiListFragement");
+        Log.d(LOG_TAG, "Starting DetaiListFragement with onCreateView");
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(POSITION_PLAYER)) {
+            playerPosition = savedInstanceState.getLong(POSITION_PLAYER);
+            mPlayWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY);
+        }
 
         sharedViewModel = ViewModelProviders.of(getActivity()).get(DetailViewModel.class);
 
@@ -64,6 +69,12 @@ public class DetailInfoFragment extends Fragment {
         mPlayerView = view.findViewById(R.id.player_view);
         mStepDescription = view.findViewById(R.id.step_description_txt);
 
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         sharedViewModel.getStepInfo().observe(this, step -> {
             Log.d(LOG_TAG, "Getting stepInfo of stepId: " + step.getStepId() + " from " +
                     "sharedViewModel");
@@ -71,13 +82,9 @@ public class DetailInfoFragment extends Fragment {
             mVideoUrl = step.getVideoURL();
             Log.d(LOG_TAG, "Getting videoUrl of stepId: " + step.getVideoURL() + " from " +
                     "sharedViewModel");
-            int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                mStepDescription.setText(step.getDescription());
-            }
             setupUI(true);
         });
-        return view;
+        Log.d(LOG_TAG, "Calling onResume");
     }
 
     private void setupUI(boolean hasVideoSource) {
@@ -128,4 +135,31 @@ public class DetailInfoFragment extends Fragment {
         mPlayer.setPlayWhenReady(mPlayWhenReady);
         mPlayerView.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+        Log.d(LOG_TAG, "Calling onPause");
+    }
+
+    private void releasePlayer() {
+        if (mPlayer != null) {
+            mPlayWhenReady = mPlayer.getPlayWhenReady();
+            playerPosition = mPlayer.getCurrentPosition();
+
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(POSITION_PLAYER, playerPosition);
+        outState.putBoolean(PLAY_WHEN_READY_KEY, mPlayWhenReady);
+    }
+
+
 }
