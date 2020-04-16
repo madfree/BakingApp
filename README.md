@@ -1,9 +1,9 @@
-#Baking App
+# Baking App
 
 This is an Android Baking App that shows a collection of recipes, their ingredients and video-guided steps of the preparation. The app uses the model-view-viewmodel (mvvm) architecture pattern and Android architecture components to implement this pattern in the app. Other main features of the app are: user interface with master-detail flow, media player integration and a homescreen widget.
 The app has been build as part of the Udacity Android Developer Nanodegree.
 
-##Features
+## Features
 
 - Android Architecture Components
     - Room, as a database, to avoid unnecessary boilerplate and to easily convert SQLite table data to Java objects
@@ -14,16 +14,14 @@ The app has been build as part of the Udacity Android Developer Nanodegree.
 - A media player (Exoplayer) is used to load and display videos
 - The app is accompanied by a homescreen widget
 
-##Showcase
+## Showcase
 
-<img src=/screenshots/1.gif width="200">
-<img src=/screenshots/2.gif width="200">
-<img src=/screenshots/3.gif width="200">
-<img src=/screenshots/4.gif width="200">
+<img src=/screenshots/1.png width="200"><img src=/screenshots/2.png width="200">
+<img src=/screenshots/3.png width="200"><img src=/screenshots/4.png width="200">
 
-##Getting Started / Installation
+## Getting Started / Installation
 1. Download the zip-file with the code and import it into Android Studio OR clone the code with Android Studio.
 2. Start the app via emulator
 
-##License
+## License
 This app is Copyright © 2020 madfree. It is free software, and may be redistributed under the terms specified in the [LICENSE](/LICENSE) file.
