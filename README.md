@@ -16,9 +16,9 @@ The app has been build as part of the Udacity Android Developer Nanodegree.
 
 ## Showcase
 
-<img src=/screenshots/1.png width="200">   <img src=/screenshots/2.png width="200">   <img src=/screenshots/3.png width="200">
+<img src=/screenshots/1.png width="200">   <img src=/screenshots/2.png width="200">   <img src=/screenshots/4.png width="200">
 
-<img src=/screenshots/4.png width="500">
+<img src=/screenshots/3.png width="500">
 
 ## Getting Started / Installation
 1. Download the zip-file with the code and import it into Android Studio OR clone the code with Android Studio.
